@@ -8,4 +8,4 @@
   tasks:
     - name: include aci role
       include_tasks:
-        file: roles/network_aci/tasks/main.yml
+        file: ./roles/network_aci/tasks/main.yml
