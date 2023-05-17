@@ -5,7 +5,7 @@
   connection: local
   gather_facts: no
 
-  roles: 
-    - network_aci
-
-  
+  tasks:
+    - name: include aci role
+      include_role:
+        name: network_aci
