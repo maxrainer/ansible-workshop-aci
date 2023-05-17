@@ -5,4 +5,5 @@
   connection: local
   gather_facts: no
   roles:
-    - roles/network-aci
+    - role: network-aci
+      tags: always
