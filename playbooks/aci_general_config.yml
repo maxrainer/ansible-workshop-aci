@@ -8,4 +8,4 @@
   tasks:
     - name: include aci role
       include_role:
-        name: network_aci
+        name: ../roles/network_aci
