@@ -1,0 +1,9 @@
+---
+
+- name: configure tenant
+  hosts: epg
+  connection: local
+  gather_facts: no
+  roles: 
+    - ../../network-aci
+  

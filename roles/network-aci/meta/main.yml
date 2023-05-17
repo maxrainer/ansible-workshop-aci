@@ -1,0 +1,21 @@
+dependencies: []
+
+collections: 
+  - cisco.aci
+
+galaxy_info:
+  role_name: network_aci
+  author: Markus Rainer
+  description: Cisco ACI Role for Demo and Labs
+  company: Red Hat
+
+  license: MIT
+
+  min_ansible_version: 2.9
+
+  platforms: 
+    - name: GenericUNIX
+      versions:
+        - all
+
+  galaxy_tags: [cisco, aci, demo, lab, networking]

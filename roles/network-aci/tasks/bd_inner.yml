@@ -1,0 +1,17 @@
+---
+
+- name: bridgedomain subnet configuration
+  cisco.aci.aci_bd_subnet:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    subnet_name: "{{ item.name | default(omit) }}"
+    tenant: "{{ aci_vrfs[aci_bridgedomain.vrf]['tenant'] }}"
+    bd: "{{ aci_bridgedomain.name }}"
+    gateway: "{{ item.gateway }}"
+    mask: "{{ item.mask | default ('24') }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  loop: "{{ aci_bridgedomain.subnets }}"
+  loop_control:
+    label: "{{ item.gateway }} "
+  tags: [always]

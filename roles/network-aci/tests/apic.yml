@@ -1,0 +1,9 @@
+---
+
+- name: configure cisco APIC controller
+  hosts: apic
+  roles: 
+    - ../../network-aci
+  connection: local
+  gather_facts: no
+  vars_files: vars/apic.yml

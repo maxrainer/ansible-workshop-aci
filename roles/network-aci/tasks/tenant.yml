@@ -1,0 +1,31 @@
+---
+
+- name: tenant configuration
+  cisco.aci.aci_tenant:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    tenant: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    state: "{{ aci_tenant_state }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  loop: "{{ aci_tenants }}"
+  loop_control: 
+    label: "{{ item.name }}"
+  register: _aci_tenant_result
+  tags: [always]
+
+- name: print tenant state
+  debug: 
+    var: _aci_tenant_result
+    verbosity: 2
+  tags: [always]
+
+- name: application profile loop
+  include_tasks: app_profile_inner.yml
+  loop: "{{ aci_tenants }}"
+  loop_control: 
+    loop_var: tenant
+    label: "{{ tenant.name }}"
+  when: aci_tenant_state != "absent"
+  tags: [always]

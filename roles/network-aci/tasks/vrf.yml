@@ -1,0 +1,23 @@
+---
+
+- name: VRF configuration
+  cisco.aci.aci_vrf:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    vrf: "{{ item.key }}"
+    tenant: "{{ item.value.tenant }}"
+    description: "{{ item.value.description | default(omit) }}"
+    state: "{{ aci_vrf_state }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  loop: "{{ aci_vrfs | dict2items }}"
+  loop_control: 
+    label: "{{ item.key }}"
+  register: _aci_vrf_result
+  tags: [always]
+
+- name: print tenant state
+  debug: 
+    var: _aci_vrf_result
+    verbosity: 2
+  tags: [always]

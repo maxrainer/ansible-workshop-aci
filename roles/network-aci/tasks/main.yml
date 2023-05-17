@@ -1,0 +1,25 @@
+---
+# ACI defaults/main.yml
+
+- name: debug 
+  debug:
+    var: hostvars
+    verbosity: 2
+
+- include_tasks: tenant.yml
+  tags: [tenant, apic]
+
+- include_tasks: vrf.yml
+  tags: [vrf, apic]
+
+- include_tasks: bd.yml
+  tags: [bd, apic]
+
+- include_tasks: epg.yml
+  tags: [never, epg]
+
+- include_tasks: query.yml
+  tags: [never, query]
+
+- include_tasks: epg_reverse.yml
+  tags: [never, reverse]

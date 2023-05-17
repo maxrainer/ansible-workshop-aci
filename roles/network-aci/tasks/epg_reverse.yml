@@ -1,0 +1,48 @@
+---
+# get EPG configuration from APIC and push back to Ansible Tower
+
+- name: query EPG configuration
+  cisco.aci.aci_epg:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    state: query
+    validate_certs: "{{ aci_validate_certs }}"
+  register: _epg_result
+  tags: [always]
+
+- debug:
+    var: _epg_result
+    verbosity: 2
+  tags: [always]
+
+- name: Ansible Tower push back
+  block:
+  - name: make sure about inventory itself on Tower 
+    awx.awx.tower_inventory:
+      tower_host: "{{ tower_host }}"
+      tower_username: "{{ tower_username }}"
+      tower_password: "{{ tower_password }}"
+      validate_certs: no
+      name: "{{ aci_tower_inventory }}"
+      description: managed by Ansible reverse engineering template
+      organization: Default 
+    tags: [always]
+
+  - name: push back EPGs to Ansible Tower
+    awx.awx.tower_host:
+      tower_host: "{{ tower_host }}"
+      tower_username: "{{ tower_username }}"
+      tower_password: "{{ tower_password }}"
+      validate_certs: no
+      name: "{{ item.fvAEPg.attributes.name }}"
+      description: "{{ item.fvAEPg.attributes.descr | default(omit) }}"
+      inventory: "{{ aci_tower_inventory }}"
+      variables:
+        aci_epg: 
+          bd: "{{ item.fvAEPg.children[0].fvRsBd.attributes.tnFvBDName | default('') }}"
+          bd_subnet: "{{ item.fvAEPg.children[0].fvRsBd.children[0].fvSubnetBDDefCont.attributes.rn | default('') }}"
+    loop: "{{ _epg_result.current }}"
+    loop_control:
+      label: "{{ item.fvAEPg.attributes.name }}"
+    tags: [always]

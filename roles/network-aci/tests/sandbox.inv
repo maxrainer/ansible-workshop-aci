@@ -1,0 +1,2 @@
+[apic]
+sandboxapicdc ansible_host=sandboxapicdc.cisco.com ansible_user=admin ansible_ssh_pass=!v3G@!4@Y

@@ -1,0 +1,15 @@
+---
+
+- name: application profile configuration
+  cisco.aci.aci_ap:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    tenant: "{{ tenant.name }}"
+    ap: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  loop: "{{ tenant.aps }}"
+  loop_control:
+    label: "{{ item.name }}"
+  tags: [always]

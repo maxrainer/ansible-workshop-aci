@@ -1,0 +1,13 @@
+---
+
+aci_tenant_state: present
+aci_vrf_state: present
+aci_bd_state: present
+aci_epg_state: present
+
+# needed for reverse engineering
+tower_host: "https://127.0.0.1/"
+tower_username: admin
+tower_password: changeme
+aci_tower_inventory: aci-reverse
+aci_validate_certs: yes

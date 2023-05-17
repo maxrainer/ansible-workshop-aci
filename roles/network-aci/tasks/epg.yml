@@ -1,0 +1,34 @@
+---
+
+- name: EPG configuration
+  cisco.aci.aci_epg:
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    tenant: "{{ aci_epg.tenant }}"
+    ap: "{{ aci_epg.ap }}"
+    epg: "{{ aci_epg.epg | default(inventory_hostname)  }}"
+    description: "{{ aci_epg.description | default(omit) }}"
+    bd: "{{ aci_epg.bd }}"
+    state: "{{ aci_epg_state }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  tags: [always]
+
+- name: bind EPG to contract
+  cisco.aci.aci_epg_to_contract: 
+    host: "{{ ansible_host }}"
+    username: "{{ ansible_user }}"
+    password: "{{ ansible_ssh_pass }}"
+    epg: "{{ aci_epg.epg | default(inventory_hostname)  }}"
+    contract_type: "{{ item.contract_type | default('provider') }}"
+    contract: "{{ item.contract }}"
+    priority: "{{ item.priority | default(omit) }}"
+    tenant: "{{ aci_epg.tenant }}"
+    ap: "{{ aci_epg.ap }}"
+    state: "{{ item.state | default(omit) }}"
+    validate_certs: "{{ aci_validate_certs }}"
+  loop: "{{ aci_epg.contracts }}"
+  loop_control:
+    label: "{{ item.contract }} ==> {{ item.state | default('present') }}"
+  when: aci_epg.contracts is defined and aci_epg_state == 'present'
+  tags: [always]

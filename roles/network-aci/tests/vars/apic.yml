@@ -1,0 +1,41 @@
+---
+aci_tenants:
+  - name: blue
+    aps: 
+      - name: ap_blue_web
+        description: app profile blue web
+      - name: ap_blue_db
+  - name: green
+    aps:
+      - name: ap_green_web
+      - name: ap_green_db
+
+aci_vrfs:
+  vrf_b_1:
+    tenant: blue
+    description: VRF blue one
+  vrf_g_1:
+    tenant: green
+    description: VRF green one
+
+aci_bridgedomains:
+  - name: blue_web
+    vrf: vrf_b_1
+    subnets:
+    - gateway: 10.201.0.1
+      mask: 28
+      name: sub_blue_web_1
+    - gateway: 10.201.1.1
+      name: sub_blue_web_2
+  - name: green_web
+    vrf: vrf_g_1
+    subnets:
+    - gateway: 10.202.0.2
+  - name: blue_db
+    vrf: vrf_b_1
+    subnets:
+      - gateway: 10.201.10.1
+  - name: green_db
+    vrf: vrf_g_1
+    subnets:
+      - gateway: 10.202.10.1
