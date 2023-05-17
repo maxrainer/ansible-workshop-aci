@@ -1,14 +1,9 @@
 ---
 
 - name: Cisco APIC controller configuration and queries
-  hosts: apic
+  hosts: all
   connection: local
   gather_facts: no
-
-  tasks:
-    - name: include network-aci role
-      include_role: 
-        name: network-aci
     
   roles:
     - network-aci
