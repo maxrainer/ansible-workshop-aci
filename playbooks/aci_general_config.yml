@@ -7,5 +7,5 @@
 
   tasks:
     - name: include aci role
-      include_role:
-        name: ../roles/network_aci
+      include_tasks:
+        name: ../roles/network_aci/tasks/main.yml
