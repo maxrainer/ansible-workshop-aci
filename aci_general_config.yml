@@ -4,6 +4,11 @@
   hosts: apic
   connection: local
   gather_facts: no
+
+  tasks:
+    - name: include network-aci role
+      include_role: 
+        name: network-aci
+    
   roles:
-    - role: network-aci
-      tags: always
+    - network-aci
