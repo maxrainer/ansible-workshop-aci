@@ -4,6 +4,12 @@
   hosts: all
   connection: local
   gather_facts: no
-    
-  roles:
-    - network-aci
+
+  tasks:
+    - name: test
+      debug: 
+        var: hostvars
+        
+    - name: include role aci 
+      include_role:
+        name: network-aci
