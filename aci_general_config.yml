@@ -9,7 +9,11 @@
     - name: test
       debug: 
         var: hostvars
-        
+
     - name: include role aci 
       include_role:
         name: network-aci
+    
+    - name: include role aci 
+      include_role:
+        name: network-acis
