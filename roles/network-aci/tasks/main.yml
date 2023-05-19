@@ -5,6 +5,7 @@
   debug:
     var: hostvars
     verbosity: 2
+  tags: [always]
 
 - include_tasks: tenant.yml
   tags: [tenant, apic]
